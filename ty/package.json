@@ -1,0 +1,22 @@
+{
+  "name": "endcard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "webpack-dev-server --mode=production --open --history-api-fallback"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^1.0.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-command": "^0.4.1"
+  },
+  "dependencies": {
+    "webpack-dev-server": "^3.1.4"
+  }
+}
