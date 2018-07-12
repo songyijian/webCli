@@ -1,42 +1,54 @@
 const path = require('path');
-const uglify = require('uglifyjs-webpack-plugin');
-let itemsrc = `./test`
-console.log('-------',path.resolve(__dirname, 'dist'))
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-module.exports={
-    //入口文件的配置项
-    entry:{
-        mian: `./test/js/index.js`
+
+module.exports = {
+    entry: {
+        mian: './src/index.js',
+        print: './src/print.js'
     },
-    //出口文件的配置项
-    output:{
-        //打包的路径文职
-        path: path.resolve(__dirname, './test/dist'),
-        //打包的文件名称,[entry.key].js可以输出多个
-        filename: '[mian].js'
+    output: {
+        filename: '[name].min.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
-    //模块：例如解读CSS,图片如何转换，压缩
-    module:{
+    devtool: 'inline-source-map',
+    plugins: [
+        new CleanWebpackPlugin(['dist']),
+        new HtmlWebpackPlugin({ title: 'Output Management' })
+    ],
+    devServer: {
+        contentBase: './dist'
+    },
+    module: {
         rules: [
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: [
+                    { loader: 'style-loader' },
+                    {
+                        loader: 'css-loader',
+                        options: { modules: true }
+                    }
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [ 'file-loader' ]
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [ 'file-loader' ]
+            },
+            {
+                test: /\.(csv|tsv)$/,
+                use: ['csv-loader']
+            },
+            {
+                test: /\.xml$/,
+                use: ['xml-loader']
             }
         ]
-    },
-    //插件，用于生产模版和各项功能
-    plugins:[  
-        new uglify()    //JS压缩插件
-    ],
-    //配置webpack开发服务功能
-    devServer:{
-        //设置基本目录结构
-        contentBase: path.resolve(__dirname, './test/dist'),
-        //服务器的IP地址，可以使用IP也可以使用localhost
-        host: 'localhost',
-        //服务端压缩是否开启
-        compress: true,
-        //配置服务端口号
-        port: 1717
     }
-}
+  };
