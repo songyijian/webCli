@@ -1,11 +1,11 @@
-// import './style.css';
+import './style.css';
 import Icon from './2.png';
-// import './print';
+// import printMe from './print.js';
 
 function component() {
     var element = document.createElement('div');
     // Lodash（目前通过一个 script 脚本引入）对于执行这一行是必需的
-    element.innerHTML = 'Hello webapck 12'
+    element.innerHTML = 'Hello webapck 12004'
     element.classList.add('hello');
     // 将图像添加到我们现有的 div。
     var myIcon = new Image();
@@ -15,3 +15,4 @@ function component() {
 }
 
 document.body.appendChild(component());
+// printMe()

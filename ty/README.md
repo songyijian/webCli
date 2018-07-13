@@ -1,14 +1,15 @@
 # 通用项目 webpack 开发环境
 
-## 打包
-```
- npm run bulid  
+## 当前配置命令
+* 打包： npm run bulid  
+* 本地发开模式： npm run dev 
 
-```
+
+---
 
 
 ## 当前环境依赖
----
+
 
 ### css （可在js内引入css文件，import './style.css';）
 ```
@@ -124,11 +125,31 @@ sever.js
 
 ```
 
+### [热更新](https://webpack.docschina.org/guides/hot-module-replacement/)
+```
+webpack-dev-server 支持热更新
+    plugins: [
+    +   new webpack.NamedModulesPlugin(),
+    +   new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        contentBase: './dist',
+        hot: true
+    },
 
 
+命令 --mode development(参数不能少，hot可以在webpack.config里配置)
+    "dev": "webpack-dev-server --mode development --open --hot",
+
+
+
+
+```
+
+---
 
 ## webpack 自带功能配置
----
+
 ### source map 错误源头文件跟踪（webapck 自带的不同加载）
 ```
 devtool: 'inline-source-map'
