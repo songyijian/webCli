@@ -102,9 +102,25 @@ package.json
 ### 把webpack处理后的文件传递给一个服务器
 
 ```
-npm install --save-dev  webpack-dev-middleware
+npm install --save-dev express webpack-dev-middleware
 
-npm install --save-dev koa2     //用来构建服务器
+安装 webpack-dev-middleware、 express（注意koa搭建会报错）
+
+sever.js
+
+    const express = require('express');
+    const webpack = require('webpack');
+    const webpackDevMiddleware = require('webpack-dev-middleware');
+    const app = express();
+    const config = require('./webpack.config.js');
+    const compiler = webpack(config);
+
+    app.use(webpackDevMiddleware(compiler, {
+        publicPath: config.output.publicPath
+    }));
+    app.listen(3000, function () {
+        console.log('Example app listening on port 3000!\n');
+    });
 
 ```
 
