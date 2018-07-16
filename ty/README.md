@@ -141,10 +141,40 @@ webpack-dev-server 支持热更新
 命令 --mode development(参数不能少，hot可以在webpack.config里配置)
     "dev": "webpack-dev-server --mode development --open --hot",
 
+```
 
-
+### tree shaking  移除js未引用代码 (这个环境里面并不添加它)
+```
 
 ```
+
+### 公共模块
+```
+公共包～jq等都被压缩到 commons.js 内
+官方api错误，看这个贴（https://blog.csdn.net/github_36487770/article/details/80228147）
+
+optimization: {  //公共模块抽离压缩到commons.js 内
+    splitChunks:{
+        cacheGroups: {
+            commons: {
+                name: "commons",
+                chunks: "initial",
+                minChunks: 2
+            }
+        }
+    }
+},
+```
+
+### 缓存
+```
+//
+filename: '[name].[hash].js',
+
+//chunkhash //内容压缩成的hash热加载的开发环境内不能使用
+filename: '[name].[chunkhash].js',
+```
+
 
 ---
 

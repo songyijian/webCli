@@ -2,7 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
-// 获取本地ip
+
+// 获取本地
 function getIPAdress() {
     var interfaces = require('os').networkInterfaces();
     for (var devName in interfaces) {
@@ -19,10 +20,11 @@ function getIPAdress() {
 module.exports = {
     entry: {
         mian: './src/index.js',
-        print: './src/print.js'
+        print: './src/print.js',
+        vendor: ['lodash']
     },
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].[hash].js',
         path: path.resolve(__dirname, 'dist')
     },
     devtool: 'inline-source-map',
@@ -31,13 +33,32 @@ module.exports = {
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({ title: 'Hot html' }),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'manifest'
+        })
     ],
+    optimization: {  //公共模块抽离压缩到commons.js 内
+        splitChunks:{
+            cacheGroups: {
+                commons: {
+                    name: "commons",
+                    chunks: "initial",
+                    minChunks: 2
+                }
+            }
+        }
+    },
     devServer: {
         contentBase: path.resolve(__dirname, 'dist'),
-        hot: true,
+        // hot: true,
         //服务端压缩是否开启
-        compress: true,
+        // compress: true,
         host: getIPAdress() //'localhost'
     },
     module: {
