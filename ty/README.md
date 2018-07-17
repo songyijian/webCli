@@ -4,7 +4,6 @@
 * 打包： npm run bulid  
 * 本地发开模式： npm run dev 
 
-
 ---
 
 
@@ -63,7 +62,9 @@ JSON是内置的可以直接引用（import Data from './data.json'）
 
 ```
 
-### html 生成
+### html 生成 
+[推荐教程](https://blog.csdn.net/xs20691718/article/details/52100797)
+
 ```
 npm install --save-dev html-webpack-plugin
 

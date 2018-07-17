@@ -15,9 +15,10 @@ function getIPAdress() {
             }
         }
     }
-}  
-
+}
+ 
 module.exports = {
+    // context: path.resolve(__dirname, "/Users/happyelements/git/endcard"),
     entry: {
         mian: './src/index.js',
         print: './src/print.js',
