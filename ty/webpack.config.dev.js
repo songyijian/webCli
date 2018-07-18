@@ -18,31 +18,34 @@ function getIPAdress() {
 }
 
 module.exports = {
-    // context: path.resolve(__dirname, "/Users/happyelements/git/endcard"),
+    // context: path.resolve(__dirname, "../pc"),
     entry: {
-        mian: './src/index.js',
-        print: './src/print.js',
-        vendor: ['lodash']
+        mian: '../pc/src/mian.js'
     },
     output: {
-        filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'dist')
+        filename: '[name].js',
+        path: path.resolve(__dirname, '../pc/dist')
     },
     devtool: 'inline-source-map',
     plugins: [
-        // 清理旧包 | 自动生成html
+        // 清理旧包，生产使用
         new CleanWebpackPlugin(['dist']),
-        new HtmlWebpackPlugin({ title: 'Hot html' }),
+        //自动生成HTML
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: path.resolve(__dirname, '../pc/index.html'),//模版
+            // chunks: ['wp2'],//引入的文件
+            inject: true,    //允许插件修改哪些内容，包括head与body
+            hash: true,    //为静态资源生成hash值
+            minify: {    //压缩HTML文件
+            // removeComments: true,    //移除HTML中的注释
+            // collapseWhitespace: false    //删除空白符与换行符
+            }
+        }),
+
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        
-        new webpack.HashedModuleIdsPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest'
-        })
+        new webpack.HashedModuleIdsPlugin()
     ],
     optimization: {  //公共模块抽离压缩到commons.js 内
         splitChunks:{
@@ -56,14 +59,28 @@ module.exports = {
         }
     },
     devServer: {
-        contentBase: path.resolve(__dirname, 'dist'),
-        // hot: true,
+        contentBase: path.resolve(__dirname, '../pc/dist'),
+        hot: true,
         //服务端压缩是否开启
         // compress: true,
-        host: getIPAdress() //'localhost'
+        host: getIPAdress(), //'localhost'
+        // 接口代理
+        // proxy: {
+        //     '/index.php': {
+        //         target: 'http://localhost:80/index.php',
+        //         secure: false
+        //     }
+        // }
+
     },
     module: {
         rules: [
+            {   //支持html热更新
+                test: /\.(htm|html)$/,
+                use: [
+                    'raw-loader'
+                ]
+            },
             {
                 test: /\.css$/,
                 use: [

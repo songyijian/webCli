@@ -3,35 +3,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
-// 获取本地
-function getIPAdress() {
-    var interfaces = require('os').networkInterfaces();
-    for (var devName in interfaces) {
-        var iface = interfaces[devName];
-        for (var i = 0; i < iface.length; i++) {
-            var alias = iface[i];
-            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-                return alias.address;
-            }
-        }
-    }
-}
 
 module.exports = {
     // context: path.resolve(__dirname, "/Users/happyelements/git/endcard"),
     entry: {
         mian: './src/index.js',
-        print: './src/print.js',
         vendor: ['lodash']
     },
     output: {
-        filename: '[name].[hash].js',
+        filename: '[name].[chunkhash].js',
         path: path.resolve(__dirname, 'dist')
     },
     devtool: 'inline-source-map',
     plugins: [
         // 清理旧包 | 自动生成html
         new CleanWebpackPlugin(['dist']),
+        
         new HtmlWebpackPlugin({ title: 'Hot html' }),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
@@ -54,13 +41,6 @@ module.exports = {
                 }
             }
         }
-    },
-    devServer: {
-        contentBase: path.resolve(__dirname, 'dist'),
-        // hot: true,
-        //服务端压缩是否开启
-        // compress: true,
-        host: getIPAdress() //'localhost'
     },
     module: {
         rules: [
