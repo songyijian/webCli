@@ -3,28 +3,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
-// 获取本地
-function getIPAdress() {
-    var interfaces = require('os').networkInterfaces();
-    for (var devName in interfaces) {
-        var iface = interfaces[devName];
-        for (var i = 0; i < iface.length; i++) {
-            var alias = iface[i];
-            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-                return alias.address;
-            }
-        }
-    }
-}
+// 统一所以输出路径
+var OUT_DIST = path.resolve(__dirname, '../pc/dist');
+var ENT_ITEM = path.resolve(__dirname, '../pc/dist');
+
+
+
 
 module.exports = {
     // context: path.resolve(__dirname, "../pc"),
     entry: {
-        mian: '../pc/src/mian.js'
+        mian: `${ENT_ITEM}/src/mian.js`
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, '../pc/dist')
+        path: OUT_DIST
     },
     devtool: 'inline-source-map',
     plugins: [
@@ -33,7 +26,7 @@ module.exports = {
         //自动生成HTML
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: path.resolve(__dirname, '../pc/index.html'),//模版
+            template: `${ENT_ITEM}/index.html`,//模版
             // chunks: ['wp2'],//引入的文件
             inject: true,    //允许插件修改哪些内容，包括head与body
             hash: true,    //为静态资源生成hash值
@@ -59,7 +52,7 @@ module.exports = {
         }
     },
     devServer: {
-        contentBase: path.resolve(__dirname, '../pc/dist'),
+        contentBase: OUT_DIST,
         hot: true,
         //服务端压缩是否开启
         // compress: true,
@@ -110,3 +103,21 @@ module.exports = {
         ]
     }
   };
+
+
+
+
+
+// 获取本地 fn
+function getIPAdress() {
+    var interfaces = require('os').networkInterfaces();
+    for (var devName in interfaces) {
+        var iface = interfaces[devName];
+        for (var i = 0; i < iface.length; i++) {
+            var alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return alias.address;
+            }
+        }
+    }
+}
