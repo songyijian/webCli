@@ -36,6 +36,8 @@ module.exports = {
       '@store': resolve('src/store'),           // vuex
       '@style': resolve('src/style'),           // 样式
       '@func': resolve('src/func'),             // 公用函数整理
+      '@fliters': resolve('src/fliters'),       // vue Fliter
+      '@pages': resolve('src/pages'),           // 页面级别vue组建
     }
   },
   module: {
