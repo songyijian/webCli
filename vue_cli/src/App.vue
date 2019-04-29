@@ -3,7 +3,7 @@
  * @Author: yijian.song
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-23 19:30:52
- * @LastEditTime: 2019-04-29 21:22:43
+ * @LastEditTime: 2019-04-29 23:02:58
  -->
 <template>
   <div id="app">
@@ -22,10 +22,10 @@ export default {
   methods:{
     async ajaxGet(){
       console.log('go')
-      // let getdata = await this.$axiosGet('http://localhost/mockwaits?time=3000',{a:333})
+      // let getdata = await this.$httpGet('http://localhost/mockwaits?time=3000',{a:333})
       // console.log('yes',getdata)
       console.log(
-        this.$axiosGet('http://localhost/mockwaits?time=3000',{a:333})
+        this.$httpGet('http://localhost/mockwaits?time=3000',{a:333})
       )
     },
     ajaxAll(){

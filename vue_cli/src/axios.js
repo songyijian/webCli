@@ -3,7 +3,7 @@
  * @Author: yijian.song
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-29 11:19:50
- * @LastEditTime: 2019-04-29 19:37:57
+ * @LastEditTime: 2019-04-30 00:03:35
  */
 import axios from 'axios'
 import qs from 'qs'
@@ -16,12 +16,12 @@ axios.defaults.timeout = 30000
 
 // 上行拦截
 axios.interceptors.request.use(config => {
-  console.log('>>>>', config);
-  if (config.method === 'post') {
-    config.data = qs.stringify(config.data)
-  }
-  return config
-},
+    console.log('>>>>', config);
+    if (config.method === 'post') {
+      config.data = qs.stringify(config.data)
+    }
+    return config
+  },
   error => {
     return Promise.reject(error)
   }

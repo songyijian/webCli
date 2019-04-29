@@ -3,17 +3,14 @@
  * @Author: your name
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-23 19:30:52
- * @LastEditTime: 2019-04-29 21:35:48
+ * @LastEditTime: 2019-04-29 22:51:00
  */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from './axios.js'
-import { httpGetStart, httpGetEnd,httpGetErr} from '@config/axios.config.js'
-
-import Http from '@/http'
+import Http from '@/http/index.js'
 
 
 // 代码检查
