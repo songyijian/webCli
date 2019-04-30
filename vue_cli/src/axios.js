@@ -3,13 +3,14 @@
  * @Author: yijian.song
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-29 11:19:50
- * @LastEditTime: 2019-04-30 00:03:35
+ * @LastEditTime: 2019-04-30 14:29:47
  */
 import axios from 'axios'
 import qs from 'qs'
 
-// 请求延时
-axios.defaults.timeout = 30000
+// 浏览器有默认连接超时，Firefox 好像是115秒，Chrome 好像是5分钟还是6分钟
+// 请求操作该时间中止请求
+axios.defaults.timeout = 60000
 
 // 代理需要切换成api
 // axios.defaults.baseURL = '/api'
@@ -23,6 +24,7 @@ axios.interceptors.request.use(config => {
     return config
   },
   error => {
+    console.log('>>>>err', error);
     return Promise.reject(error)
   }
 )
@@ -39,7 +41,8 @@ axios.interceptors.response.use(
     }
     return res
   },
-  err => {
+  error => {
+    console.log('<<<<<<err', error);
     // err => { //这里是返回状态码不为200时候的错误处理}
   }
 )

@@ -3,7 +3,7 @@
  * @Author: your name
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-29 22:23:37
- * @LastEditTime: 2019-04-30 00:03:54
+ * @LastEditTime: 2019-04-30 19:35:42
  */
 // import Axios from 'axios' 
 import axios from '@/axios.js'
@@ -15,41 +15,51 @@ import {
 from '@config/http.config.js'
 
 
-class Http{
-  constructor({
-      httpStart,
-      httpEnd,
-      httpErr
-    }) {
+class HttpRock {
+  constructor(httpStart, httpEnd, httpErr) {
     this.axios = axios
-    this.httpStart = httpStart
-    this.httpEnd = httpEnd
-    this.httpErr = httpErr
+    this.httpStart = httpStart || function (data) { return data}
+    this.httpEnd = httpEnd || function (data) { return data }
+    this.httpErr = httpErr || function (data) { return data }
   }
 
-  httpGet(url, data){
-    console.log('////get', url, data)
-    // return this.axios.get(url, { params: data })
-    // 其实上面已经够用，这里为了加个钩子
+  // get请求
+  httpGet(url, data) {
+    if (!url || typeof url !== 'string') throw new TypeError('参数错误')
     return new Promise((resolve, reject) => {
-      let { url, data } = this.httpStart({ url, data },'get')
-      
-      this.axios.get(url, { params: data })
+      let thisHttpData = this.httpStart({
+        HttpRockType: "httpGet",
+        method: 'GET',
+        url,
+        data
+      })
+      this.axios.get(thisHttpData.url, {
+          params: thisHttpData.data
+        })
         .then(data => {
-          resolve(this.httpEnd(data))
+          this.httpEnd(data)
+          console.log('ddddd', data)
+          resolve(data)
         })
         .catch(err => {
-          reject(this.httpErr(err))
+          this.httpErr(err)
+          console.log(err);
+          reject(err)
         })
     })
   }
 
+  // post请求 
   httpPost(url, data) {
-    console.log('////post', url, data)
-    // return this.axios.post(url, data)
+    if (!url || typeof url !== 'string') throw new TypeError('参数错误')
     return new Promise((resolve, reject) => {
-      let { url, data } = this.httpStart({ url, data },'post')
-      this.axios.post(url, data)
+      let thisHttpData = this.httpStart({
+        HttpRockType: "httpPost",
+        method: 'POST',
+        url,
+        data
+      })
+      this.axios.post(thisHttpData.url, thisHttpData.data)
         .then(data => {
           resolve(this.httpEnd(data))
         })
@@ -59,14 +69,48 @@ class Http{
     })
   }
 
+  // 并发处理逻辑
+  httpAll(...htArr) {
+    // 验证
+    if (
+      !htArr.every(item => {
+        return (
+          Array.isArray(item)
+          && item.length >= 2
+          && typeof item[0] == 'string'
+          && typeof item[1] == 'string'
+          && (item[0].toUpperCase() == "GET" || "POST")
+        )
+      })
+    ) {
+      throw new TypeError('httpAll,参数错误')
+    }
 
-  httpAll(arr) {
-    console.log('////all',arr)
+    // 主体
     return new Promise((resolve, reject) => {
-      let arr = this.httpGetStart(arr,'all')
-      this.axios.all(arr)
+      let htDatas = {
+        HttpRockType: "httpPost",
+        datas: htArr.map(item => {
+          return (
+            {
+              method: item[0].toUpperCase(),
+              url: item[1],
+              data: item[2] || ''
+            }
+          )
+        })
+      }
+
+      let thisHttpData = this.httpStart(htDatas)
+      this.axios.all(
+          thisHttpData.datas.map(item => {
+            return item.method === "GET" 
+              ? this.axios.get(item.url, item.data) 
+              : this.axios.post(item.url, item.data)
+          })
+        )
         .then(
-          this.axios.spread(( ...data )=>{
+          this.axios.spread((...data) => {
             resolve(this.httpEnd(data))
           })
         )
@@ -76,8 +120,29 @@ class Http{
     })
   }
 
-  
+
+  // 中间件（流式请求）逻辑
+  httpNext(...fns) {
+    console.log('////httpNext', fns)
+    // return new Promise((resolve, reject) => {
+      // let arr = this.httpGetStart(arr, 'all')
+      // this.axios.all(arr)
+      //   .then(
+      //     this.axios.spread((...data) => {
+      //       resolve(this.httpEnd(data))
+      //     })
+      //   )
+      //   .catch(err => {
+      //     reject(this.httpErr(err))
+      //   })
+    // })
+  }
+
+  get(){}
+
+  post(){}
+
+
 }
 
-export default new Http(httpStart, httpEnd, httpErr)
-
+export default new HttpRock(httpStart, httpEnd, httpErr)

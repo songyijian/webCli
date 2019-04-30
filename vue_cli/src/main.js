@@ -3,25 +3,34 @@
  * @Author: your name
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-23 19:30:52
- * @LastEditTime: 2019-04-29 22:51:00
+ * @LastEditTime: 2019-04-30 18:22:23
  */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Http from '@/http/index.js'
+import HttpRock from '@/http/index.js'
+import axios from '@/axios.js'
+
 
 
 // 代码检查
 Vue.config.productionTip = false
 
-Vue.prototype.$http =  Http
+// http扩展
+Vue.prototype.$http = axios
 Vue.prototype.$httpGet = function (url, data) {
-  return Http.httpGet(url, data )
+  return HttpRock.httpGet(url, data )
 }
 Vue.prototype.$httpPost = function (url, data) {
-  return Http.httpPost(url, data)
+  return HttpRock.httpPost(url, data)
+}
+Vue.prototype.$httpAll = function (...Arr) {
+  return HttpRock.httpAll(...Arr)
+}
+Vue.prototype.$httpNext = function (...fns) {
+  return HttpRock.httpNext(...fns)
 }
 
 

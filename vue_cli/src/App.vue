@@ -3,41 +3,54 @@
  * @Author: yijian.song
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-23 19:30:52
- * @LastEditTime: 2019-04-29 23:02:58
+ * @LastEditTime: 2019-04-30 19:35:53
  -->
 <template>
   <div id="app">
     <router-view/>
     <hr>
-    <button @click="ajaxGet">ajax get test</button>
-    <button @click="ajaxAll">ajax All test</button>
+    <button @click="httpGet">http get test</button>
+    <button @click="httpAll">http All test</button>
+    <button @click="httpNxet">http Nxet test</button>
   </div>
 </template>
 
 <script>
 import a from "@config/mian.js"
+import { rename } from 'fs';
 
 export default {
   name: 'App',
   methods:{
-    async ajaxGet(){
-      console.log('go')
-      // let getdata = await this.$httpGet('http://localhost/mockwaits?time=3000',{a:333})
-      // console.log('yes',getdata)
-      console.log(
-        this.$httpGet('http://localhost/mockwaits?time=3000',{a:333})
-      )
+    async httpGet(){
+      console.log('vue>go')
+      let getdata = await this.$httpGet('http://10.130.151.60/mockwait?time=3000',{a:333})
+      console.log('vue>yes',getdata)
     },
-    ajaxAll(){
+    httpAll(){
       this.$httpAll(
-        [
-          this.$axios.get('http://localhost/mockwait?time=3000&index=1'),
-          this.$axios.get('http://localhost/mockwait?time=1000&index=2')
-        ]
+        ['GET','http://10.130.151.60/mockwait?time=3000&index=1',{t:'get'}],
+        ['GET','http://10.130.151.60/mockwait?time=100&index=1',{t:'get2'}],
       ).then( data=>{
           console.log(data)
-        }
-      )
+      })
+    },
+    httpNxet(){
+      function ts1(cxt) {
+        // let {data,next} = cxt;
+        return 1
+      }
+      function ts2(params) {
+        return 2
+      }
+      this.$httpNext(ts1,ts2)
+      // this.$httpNext.getNext('http://10.130.151.60/mockwait?time=3000&index=1',function(next){
+
+      //   next()
+
+      // })
+
+      
     }
   }
 }
