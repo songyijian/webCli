@@ -32,7 +32,7 @@ module.exports = {
       '@assets': resolve('src/assets'),         // 静态文件
       '@components': resolve('src/components'), // 业务组建
       '@config': resolve('src/config'),         // 配置表整理
-      '@screw': resolve('src/screw'),           // 纯粹的组建
+      '@control': resolve('src/control'),           // 纯粹的组建
       '@store': resolve('src/store'),           // vuex
       '@style': resolve('src/style'),           // 样式
       '@func': resolve('src/func'),             // 公用函数整理

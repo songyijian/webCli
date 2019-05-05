@@ -6,7 +6,6 @@ const path = require('path')
 
 module.exports = {
   // 全局引入scss文件（在vue里面）
-  // '../src/style/_var.scss' || ['../src/style/_var.scss','../src/style/_var.scss']
   globalScssPath:'../src/style/_var.scss',  
  
   //开发配置
