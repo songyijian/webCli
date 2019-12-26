@@ -10,8 +10,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import HttpRock from '@/http/index.js'
-import axios from '@/axios.js'
+import HttpRock from '~/http/index.js'
+import axios from '~/axios.js'
 
 
 

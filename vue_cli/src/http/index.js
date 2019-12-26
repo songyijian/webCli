@@ -6,13 +6,13 @@
  * @LastEditTime: 2019-04-30 19:35:42
  */
 // import Axios from 'axios' 
-import axios from '@/axios.js'
+import axios from '~/axios.js'
 import {
   httpStart,
   httpEnd,
   httpErr
 }
-from '@config/http.config.js'
+from '~config/http.config.js'
 
 
 class HttpRock {

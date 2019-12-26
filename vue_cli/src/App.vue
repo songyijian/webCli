@@ -3,7 +3,7 @@
  * @Author: yijian.song
  * @LastEditors: Please set LastEditors
  * @Date: 2019-04-23 19:30:52
- * @LastEditTime: 2019-04-30 19:35:53
+ * @LastEditTime: 2019-05-09 17:15:52
  -->
 <template>
   <div id="app">
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import a from "@config/mian.js"
+import a from "~config/mian.js"
 import { rename } from 'fs';
 
 export default {

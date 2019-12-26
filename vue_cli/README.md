@@ -28,16 +28,16 @@
 alias: {
   'vue$': 'vue/dist/vue.esm.js',
   // 路径别名设置
-  '@': resolve('src'),  
-  '@assets': resolve('src/assets'),         // 静态文件
-  '@components': resolve('src/components'), // 业务组建
-  '@config': resolve('src/config'),         // 配置表整理(src下的配置，不参与脚手配置)
-  '@control': resolve('src/control'),       // 纯粹的组建
-  '@store': resolve('src/store'),           // vuex
-  '@style': resolve('src/style'),           // 样式（_var.scss全局变量无需再引入该文件天然植入环境中）
-  '@func': resolve('src/func'),             // 公用函数整理
-  '@fliters': resolve('src/fliters'),       // vue Fliter
-  '@pages': resolve('src/pages'),           // 页面级别vue组建
+  '~': resolve('src'),  
+  '~assets': resolve('src/assets'),         // 静态文件
+  '~components': resolve('src/components'), // 业务组建
+  '~config': resolve('src/config'),         // 配置表整理(src下的配置，不参与脚手配置)
+  '~control': resolve('src/control'),       // 纯粹的组建
+  '~store': resolve('src/store'),           // vuex
+  '~style': resolve('src/style'),           // 样式（_var.scss全局变量无需再引入该文件天然植入环境中）
+  '~func': resolve('src/func'),             // 公用函数整理
+  '~fliters': resolve('src/fliters'),       // vue Fliter
+  '~pages': resolve('src/pages'),           // 页面级别vue组建
 }
 ```
 
